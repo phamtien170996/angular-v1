@@ -1,0 +1,30 @@
+<mat-drawer-container class="sidebar-container" autosize>
+  <mat-drawer #drawer opened class="sidebar-sidenav" mode="side">
+    <div>
+      <button mat-button (click)="onClickMenu()">
+        <mat-icon aria-hidden="false" aria-label="Example home icon"
+          >menu</mat-icon
+        >
+      </button>
+    </div>
+    <div>
+      <button mat-button (click)="getDashboard()">
+        <mat-icon aria-hidden="false" aria-label="Example home icon"
+          >dashboard</mat-icon
+        >
+        <span *ngIf="showFiller">Dashboard</span>
+      </button>
+    </div>
+    <div>
+      <button mat-button (click)="getBooks()">
+        <mat-icon aria-hidden="false" aria-label="Example home icon"
+          >library_books</mat-icon
+        >
+        <span *ngIf="showFiller">Books</span>
+      </button>
+    </div>
+  </mat-drawer>
+  <div class="sidebar-sidenav-content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

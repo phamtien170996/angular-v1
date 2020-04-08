@@ -1,0 +1,52 @@
+<div class="login-container">
+  <h1>Login</h1>
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="onSubmit(formGroup.value)"
+    class="login-form"
+  >
+    <mat-form-field floatLabel="never" class="login-form-element">
+      <input
+        type="text"
+        matInput
+        placeholder="Username"
+        formControlName="username"
+      />
+      <mat-error *ngIf="formGroup.controls['username'].invalid">
+        {{ getError("user") }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field floatLabel="never" class="login-form-element">
+      <input
+        type="password"
+        matInput
+        placeholder="Password"
+        formControlName="password"
+      />
+      <mat-error *ngIf="formGroup.controls['password'].invalid">
+        {{ getError("pass") }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="login-form-element">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="login-button"
+        [disabled]="!formGroup.valid"
+      >
+        Submit Form
+      </button>
+    </div>
+  </form>
+  <span class="kt-login__signup-label">Don't have an account yet?</span
+    >&nbsp;&nbsp;
+    <a
+      href="javascript:;"
+      routerLink="/auth/register"
+      class="kt-link kt-login__signup-link"
+      >Register</a
+    >
+</div>

@@ -1,0 +1,13 @@
+.sidebar-container {
+  height: 100%;
+}
+
+.sidebar-sidenav-content {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-sidenav {
+  min-width: 50px;
+}

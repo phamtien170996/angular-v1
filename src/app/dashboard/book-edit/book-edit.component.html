@@ -1,0 +1,25 @@
+<div style="margin: 20px 50px;">
+  <form [formGroup]="bookForm">
+    <h4>Update Book</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Book Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Symbol</mat-label>
+      <input matInput formControlName="symbol" />
+    </mat-form-field>
+  </form>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="bookForm.invalid"
+    (click)="onAddBook()"
+  >
+    Update
+  </button>
+</div>

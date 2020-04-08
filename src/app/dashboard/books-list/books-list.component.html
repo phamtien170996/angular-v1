@@ -1,5 +1,36 @@
+<div *ngIf="isUpdateActivated" style="margin: 20px 50px;">
+  <form [formGroup]="bookForm">
+    <h4>Update Book</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Book Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Symbol</mat-label>
+      <input matInput formControlName="symbol" />
+    </mat-form-field>
+  </form>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="bookForm.invalid"
+    (click)="onUpdateBook()"
+  >
+    Update
+  </button>
+</div>
+<div style="float: right; margin: 15px;">
+  <button type="button" mat-raised-button color="warn" matTooltip="Add" (click)="onAddBook()">
+    Add Book
+    <mat-icon>add_circle</mat-icon>
+  </button>
+</div>
 <div class="mat-elevation-z8">
-  <table mat-table matSort [dataSource]="books">
+  <table mat-table matSort [dataSource]="books$">
     <!-- id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
@@ -33,7 +64,7 @@
           mat-icon-button
           color="primary"
           matTooltip="Edit"
-          (click)="editBook(element)"
+          (click)="showUpdateForm(element)"
         >
           <mat-icon>create</mat-icon></button
         >&nbsp;
@@ -42,7 +73,7 @@
           color="warn"
           type="button"
           matTooltip="Delete"
-          (click)="deleteBook(element)"
+          (click)="deleteBook(element.id)"
         >
           <mat-icon>delete</mat-icon></button
         >&nbsp;

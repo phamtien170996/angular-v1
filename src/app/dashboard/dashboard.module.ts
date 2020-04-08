@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { TopbarComponent } from '../components/topbar/topbar.component';
-import { SidebarComponent } from '../components/sidebar/sidebar.component'; import {
+import { SidebarComponent } from '../components/sidebar/sidebar.component';
+import {
   MatAutocompleteModule,
   MatBadgeModule,
   MatBottomSheetModule,
@@ -52,16 +53,20 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BooksComponent } from './books/books.component';
 import { SummaryComponent } from './summary/summary.component';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { DataService } from '../data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { BooksListComponent } from './books-list/books-list.component';
+import { BookEditComponent } from './book-edit/book-edit.component';
+import { BookService, bookReducer, BookEffects } from '../core/book';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { BookResolver } from '../core/book/book.resolver';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, TopbarComponent, SidebarComponent, BooksComponent, SummaryComponent],
+  declarations: [DashboardComponent, TopbarComponent, SidebarComponent, SummaryComponent, BooksListComponent, BookEditComponent],
   imports: [
     CommonModule,
     // CDK
@@ -113,7 +118,13 @@ import { HttpClientModule } from '@angular/common/http';
     MatTooltipModule,
     MatTreeModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forFeature('books', bookReducer),
+    EffectsModule.forFeature([BookEffects]),
     DashboardRoutingModule
-  ]
+  ],
+  providers: [BookService, BookEffects, BookResolver],
+  exports: [BooksListComponent, BookEditComponent]
 })
 export class DashboardModule { }

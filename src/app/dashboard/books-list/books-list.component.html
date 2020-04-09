@@ -24,7 +24,13 @@
   </button>
 </div>
 <div style="float: right; margin: 15px;">
-  <button type="button" mat-raised-button color="warn" matTooltip="Add" (click)="onAddBook()">
+  <button
+    type="button"
+    mat-raised-button
+    color="warn"
+    matTooltip="Add"
+    (click)="onAddBook()"
+  >
     Add Book
     <mat-icon>add_circle</mat-icon>
   </button>
@@ -86,6 +92,7 @@
   <mat-paginator
     [pageSize]="10"
     [pageSizeOptions]="[5, 10, 20]"
+    [length]="books$.paginatorTotal$ | async"
     showFirstLastButtons
   ></mat-paginator>
 </div>

@@ -9,11 +9,11 @@
       <input
         type="text"
         matInput
-        placeholder="Username"
-        formControlName="username"
+        placeholder="Email"
+        formControlName="email"
       />
-      <mat-error *ngIf="formGroup.controls['username'].invalid">
-        {{ getError("user") }}
+      <mat-error *ngIf="formGroup.controls['email'].invalid">
+        {{ getError("email") }}
       </mat-error>
     </mat-form-field>
 

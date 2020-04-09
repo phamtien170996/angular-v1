@@ -105,7 +105,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,
-    MatSelectModule,
     MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,

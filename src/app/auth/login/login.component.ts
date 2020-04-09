@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService, Login } from 'src/app/core/auth';
+import { tap, takeUntil, finalize } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/reducers';
+import { Subject } from 'rxjs';
 
 const DEMO_PARAMS = {
   EMAIL: 'admin@demo.com',
@@ -12,20 +17,32 @@ const DEMO_PARAMS = {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
+  private unsubscribe: Subject<any>;
+
+  private returnUrl: any;
+  loading = false;
+
   constructor(
-		private router: Router,
-    private fb: FormBuilder) { }
+    private router: Router,
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private store: Store<AppState>,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.route.queryParams.subscribe(params => {
+      this.returnUrl = params['returnUrl'] || '/dashboard';
+    });
   }
 
   createForm() {
     this.formGroup = this.fb.group({
-      'username': ['', Validators.compose([
+      'email': ['', Validators.compose([
         Validators.required,
         Validators.email,
         Validators.minLength(3),
@@ -39,10 +56,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.loading = false;
+  }
+
   getError(el) {
     switch (el) {
-      case 'user':
-        if (this.formGroup.get('username').invalid) {
+      case 'email':
+        if (this.formGroup.get('email').invalid) {
           return 'Username invalid';
         }
         break;
@@ -57,8 +78,31 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(post) {
-    // this.post = post;
-    this.router.navigateByUrl('/dashboard')
+    const authData = {
+      email: post.email,
+      password: post.password
+    };
+    this.loading = true;
+
+    this.auth
+      .login(authData.email, authData.password)
+      .pipe(
+        tap(user => {
+          console.log(user);
+
+          if (user) {
+            this.store.dispatch(new Login({ authToken: user.accessToken }));
+            this.router.navigateByUrl(this.returnUrl); // Main page
+          } else {
+            console.log('Login error');
+          }
+        }),
+        takeUntil(this.unsubscribe),
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe();
   }
 
   onRegister() {

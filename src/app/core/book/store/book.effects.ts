@@ -20,7 +20,6 @@ export class BookEffects {
     this.actions$.pipe(
       ofType(bookActionTypes.createBook),
       concatMap((action) => this.bookService.createBook(action.book)),
-      concatMap(() => this.bookService.getAllBooks()),
       tap(() => this.router.navigateByUrl('/dashboard/books'))
     ),
     { dispatch: false }

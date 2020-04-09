@@ -2,15 +2,28 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Book } from '../model/book.model';
 import { bookActionTypes } from './book.actions'
+import { QueryParamsModel } from '../../_base/crud/models/query-models/query-params.model';
 
 export interface BookState extends EntityState<Book> {
   booksLoaded: boolean;
+  listLoading: boolean;
+	actionsloading: boolean;
+	totalCount: number;
+	lastCreatedBookId: string;
+	lastQuery: QueryParamsModel;
+	showInitWaitingMessage: boolean;
 }
 
 export const adapter: EntityAdapter<Book> = createEntityAdapter<Book>();
 
 export const initialState = adapter.getInitialState({
-  booksLoaded: false
+  booksLoaded: false,
+	listLoading: false,
+	actionsloading: false,
+	totalCount: 0,
+	lastCreatedOrgId: undefined,
+	lastQuery: new QueryParamsModel({}),
+	showInitWaitingMessage: true
 });
 
 export const bookReducer = createReducer(
